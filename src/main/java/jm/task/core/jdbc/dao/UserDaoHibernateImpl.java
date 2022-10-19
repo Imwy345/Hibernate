@@ -77,7 +77,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void removeUserById(long id) {
         Transaction transaction = null;
 
-        try (Session session = Util.getConnectionHib().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             session.delete(session.get(User.class, id));
             transaction.commit();
@@ -96,7 +96,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = null;
         List<User> userList = null;
 
-        try (Session session = Util.getConnectionHib().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             CriteriaQuery<User> criteriaQuery = session.getCriteriaBuilder().createQuery(User.class);
             criteriaQuery.from(User.class);
@@ -115,7 +115,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void cleanUsersTable() {
         Transaction transaction = null;
 
-        try (Session session = Util.getConnectionHib().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             session.createNativeQuery("TRUNCATE TABLE example.users;").executeUpdate();
             transaction.commit();
